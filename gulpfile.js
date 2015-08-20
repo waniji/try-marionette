@@ -45,7 +45,7 @@ gulp.task('vendor:css', function() {
 gulp.task('vendor:icon', function() {
   gulp.src([
     config.bowerDir + '/fontawesome/fonts/**/*',
-    config.bowerDir + '/bootstrap-sass/assets/fonts/bootstrap/*'
+    config.bowerDir + '/bootstrap-sass/assets/fonts/**/*'
   ])
     .pipe(gulp.dest('./dist/fonts'));
 });
