@@ -76,4 +76,4 @@ gulp.task('app:css', function() {
     .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('default', ['vendor:js', 'vendor:css', 'vendor:icon', 'app:js', 'app:css']);
+gulp.task('default', ['vendor:js', 'vendor:css', 'vendor:icon', 'app:html', 'app:js', 'app:css']);
