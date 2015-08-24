@@ -1,23 +1,14 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
 var sass = require('gulp-ruby-sass');
 var minifyCss = require('gulp-minify-css');
-var mainBowerFiles = require('main-bower-files');
 var del = require('del');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 var config = {
-  bowerDir: './bower_components',
-  app: {
-    js: ['src/**/*.js'],
-    sass: ['src/**/*.sass', 'src/**/*.scss', '!src/**/vendor.*']
-  },
-  vendor: {
-    js: mainBowerFiles({filter: "**/*.js"}),
-  }
+  bowerDir: './bower_components'
 }
 
 gulp.task('clean', function(cb) {
@@ -25,14 +16,19 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('vendor:js', function() {
-  gulp.src(config.vendor.js)
-    .pipe(concat('vendor.js'))
+  return browserify({
+    entries: ['./src/js/vendor.js'],
+    transform: ['debowerify']
+  })
+    .bundle()
+    .pipe(source('vendor.js'))
+    .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('vendor:css', function() {
-  sass('./src/sass/vendor.scss', {
+  return sass('./src/sass/vendor.scss', {
     loadPath: [
       config.bowerDir + '/fontawesome/scss',
       config.bowerDir + '/bootstrap-sass/assets/stylesheets'
@@ -43,7 +39,7 @@ gulp.task('vendor:css', function() {
 });
 
 gulp.task('vendor:icon', function() {
-  gulp.src([
+  return gulp.src([
     config.bowerDir + '/fontawesome/fonts/**/*',
     config.bowerDir + '/bootstrap-sass/assets/fonts/**/*'
   ])
@@ -51,14 +47,14 @@ gulp.task('vendor:icon', function() {
 });
 
 gulp.task('app:html', function() {
-  gulp.src('./src/index.html')
+  return gulp.src('./src/index.html')
     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('app:js', function() {
-var debowerify = require('debowerify');
-  browserify({ entries: ['./src/js/app.js'], bundleExternal: false, external: ['jquery'], transform: [debowerify] })
-    .external(config.vendor.js)
+  return browserify({
+    entries: ['./src/js/app.js']
+  })
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
