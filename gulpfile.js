@@ -76,4 +76,10 @@ gulp.task('app:css', function() {
     .pipe(gulp.dest('./dist/css'));
 });
 
+gulp.task('watch', function(){
+  gulp.watch(['./src/*.html'], ['app:html']);
+  gulp.watch(['src/**/*.js'], ['app:js']);
+  gulp.watch(['src/**/*.css'], ['app:css']);
+});
+
 gulp.task('default', ['vendor:js', 'vendor:css', 'vendor:icon', 'app:html', 'app:js', 'app:css']);
