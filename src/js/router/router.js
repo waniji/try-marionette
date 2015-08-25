@@ -22,14 +22,14 @@ module.exports = Marionette.AppRouter.extend({
             childView: UserView
         });
 
-        Manager.mainRegion.show(listUsersView);
+        Manager.main.currentView.contents.show(listUsersView);
     },
 
     showUser: function(id) {
         user = new User(Data.users[id-1]);
         userView = new ShowUserView({ model: user });
 
-        Manager.mainRegion.show(userView);
+        Manager.main.currentView.contents.show(userView);
     },
 
     editUser: function(id) {
