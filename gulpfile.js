@@ -53,7 +53,8 @@ gulp.task('app:html', function() {
 
 gulp.task('app:js', function() {
   return browserify({
-    entries: ['./src/js/app.js']
+    entries: ['./src/js/app.js'],
+    transform: ['hbsfy']
   })
     .bundle()
     .pipe(source('app.js'))
@@ -76,6 +77,7 @@ gulp.task('watch', function(){
   gulp.watch(['./src/*.html'], ['app:html']);
   gulp.watch(['src/**/*.js'], ['app:js']);
   gulp.watch(['src/**/*.css'], ['app:css']);
+  gulp.watch(['src/js/vendor.js'], ['vendor:js']);
 });
 
 gulp.task('default', ['vendor:js', 'vendor:css', 'vendor:icon', 'app:html', 'app:js', 'app:css']);
