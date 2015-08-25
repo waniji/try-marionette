@@ -1,9 +1,19 @@
-var App = new Marionette.Application();
+var Router = require('./router/router');
 
-App.onStart = function() {
-    console.log("Let's start!");
-    console.log("HiTECH!");
+Manager = new Marionette.Application();
+
+Manager.addRegions({
+    mainRegion:  '#main-region'
+});
+
+Manager.addInitializer(function(){
+    new Router();
+});
+
+Manager.onStart = function(){
+    if (Backbone.history) {
+        Backbone.history.start();
+    }
 };
 
-App.start();
-
+Manager.start();
