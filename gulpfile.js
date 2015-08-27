@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var notify = require("gulp-notify");
 var uglify = require('gulp-uglify');
 var sass = require('gulp-ruby-sass');
 var minifyCss = require('gulp-minify-css');
@@ -7,13 +8,20 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
+var handleErrors = function() {
+  var args = Array.prototype.slice.call(arguments);
+
+  notify.onError({
+    title: "Compile Error",
+    message: "<%= error %>"
+  }).apply(this, args);
+
+  this.emit('end');
+};
+
 var config = {
   bowerDir: './bower_components'
 }
-
-gulp.task('clean', function(cb) {
-  del(['./dist'], cb);
-});
 
 gulp.task('vendor:js', function() {
   return browserify({
@@ -21,6 +29,7 @@ gulp.task('vendor:js', function() {
     transform: ['debowerify']
   })
     .bundle()
+    .on('error', handleErrors)
     .pipe(source('vendor.js'))
     .pipe(buffer())
     .pipe(uglify())
@@ -57,6 +66,7 @@ gulp.task('app:js', function() {
     transform: ['hbsfy']
   })
     .bundle()
+    .on('error', handleErrors)
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(uglify())
