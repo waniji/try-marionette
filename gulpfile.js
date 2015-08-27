@@ -81,3 +81,5 @@ gulp.task('watch', function(){
 });
 
 gulp.task('default', ['vendor:js', 'vendor:css', 'vendor:icon', 'app:html', 'app:js', 'app:css']);
+gulp.task('vendor', ['vendor:js', 'vendor:css', 'vendor:icon']);
+gulp.task('app', ['app:html', 'app:js', 'app:css']);
