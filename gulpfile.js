@@ -47,7 +47,7 @@ gulp.task('vendor:icon', function() {
 });
 
 gulp.task('app:html', function() {
-  return gulp.src('./src/index.html')
+  return gulp.src('./src/**/*.html')
     .pipe(gulp.dest('./dist'));
 });
 
