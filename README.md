@@ -3,7 +3,7 @@
 ```
 gem install sass
 npm install
-bower install
-gulp
+npm run bower install
+npm run gulp
 ```
 

@@ -2,6 +2,10 @@
   "name": "try-marionette",
   "version": "0.0.1",
   "license": "BSD",
+  "scripts": {
+      "bower": "bower",
+      "gulp": "gulp"
+  },
   "devDependencies": {
     "bower": "^1.5.2",
     "browserify": "~11.0.1",
